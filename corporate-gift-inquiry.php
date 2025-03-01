@@ -153,7 +153,7 @@ class Corporate_Gift_Inquiry {
         echo '<button type="button" class="button alt inquire-button" 
             data-product-id="' . esc_attr($product_id) . '" 
             data-product-name="' . esc_attr($product_name) . '" 
-            data-product-image="' . esc_attr($product_image) . '"
+            data-modal-product-image="' . esc_attr($product_image) . '"
             data-product-description="' . esc_attr(wp_strip_all_tags($product->get_short_description())) . '">
             Inquire About This Gift
         </button>';
@@ -170,8 +170,8 @@ class Corporate_Gift_Inquiry {
                 <h2>Gift Inquiry</h2>
                 
                 <div class="product-details">
-                    <div class="product-image">
-                        <img src="" id="inquiry-product-image" alt="Gift Image">
+                    <div class="modal-product-image">
+                        <img src="" id="inquiry-modal-product-image" alt="Gift Image">
                     </div>
                     <div class="product-info">
                         <h3 id="inquiry-product-name"></h3>
@@ -545,7 +545,7 @@ class Corporate_Gift_Inquiry {
                 grid-template-columns: 1fr 2fr;
                 grid-gap: 20px;
             }
-            .inquiry-product-image {
+            .inquiry-modal-product-image {
                 max-width: 100%;
                 height: auto;
             }
@@ -564,7 +564,7 @@ class Corporate_Gift_Inquiry {
             <div class="inquiry-product">
                 <h3>Product Information</h3>
                 <?php if (!empty($product_image)) : ?>
-                    <img src="<?php echo esc_url($product_image); ?>" class="inquiry-product-image" />
+                    <img src="<?php echo esc_url($product_image); ?>" class="inquiry-modal-product-image" />
                 <?php endif; ?>
                 
                 <div class="inquiry-meta-item">
@@ -717,13 +717,13 @@ function create_plugin_files() {
         margin-bottom: 20px;
     }
     
-    .product-image {
+    .modal-product-image {
         flex: 0 0 30%;
         max-width: 200px;
         margin-right: 20px;
     }
     
-    .product-image img {
+    .modal-product-image img {
         max-width: 100%;
         height: auto;
     }
@@ -804,12 +804,12 @@ function create_plugin_files() {
         $(document).on('click', '.inquire-button', function() {
             var productId = $(this).data('product-id');
             var productName = $(this).data('product-name');
-            var productImage = $(this).data('product-image');
+            var productImage = $(this).data('modal-product-image');
             var productDescription = $(this).data('product-description');
             
             $('#inquiry-product-id').val(productId);
             $('#inquiry-product-name').text(productName);
-            $('#inquiry-product-image').attr('src', productImage);
+            $('#inquiry-modal-product-image').attr('src', productImage);
             $('#inquiry-product-description').text(productDescription);
             
             $('#gift-inquiry-modal').fadeIn();
