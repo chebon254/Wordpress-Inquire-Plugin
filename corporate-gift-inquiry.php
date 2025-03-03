@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Corporate Gift Inquiry System
  * Description: Replaces buy buttons with inquiry buttons for the corporate-gifts category and handles inquiries
- * Version: 1.3
+ * Version: 1.4
  * Author: Kelvin Chebon
  */
 
