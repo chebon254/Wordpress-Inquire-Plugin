@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Corporate Gift Inquiry System
  * Description: Replaces buy buttons with inquiry buttons for the corporate-gifts category and handles inquiries
- * Version: 1.2
+ * Version: 1.3
  * Author: Kelvin Chebon
  */
 
@@ -34,6 +34,12 @@ class Corporate_Gift_Inquiry {
         
         // Completely remove Add to Cart buttons for corporate gift products
         add_filter('woocommerce_is_purchasable', array($this, 'make_corporate_gifts_not_purchasable'), 10, 2);
+        
+        // Hide prices in product loops (category/shop pages)
+        add_filter('woocommerce_get_price_html', array($this, 'hide_corporate_gift_prices'), 10, 2);
+        
+        // Remove the Add to Cart button from product archives/category pages
+        add_action('woocommerce_after_shop_loop_item', array($this, 'remove_add_to_cart_in_loop'), 1);
 
         // Add inquiry form modal to footer
         add_action('wp_footer', array($this, 'add_inquiry_modal'));
@@ -69,6 +75,27 @@ class Corporate_Gift_Inquiry {
             return false;
         }
         return $purchasable;
+    }
+    
+    /**
+     * Hide prices for corporate gifts
+     */
+    public function hide_corporate_gift_prices($price, $product) {
+        if ($this->is_corporate_gift($product->get_id())) {
+            return '';
+        }
+        return $price;
+    }
+    
+    /**
+     * Remove add to cart button in product loops
+     */
+    public function remove_add_to_cart_in_loop() {
+        global $product;
+        
+        if ($this->is_corporate_gift($product->get_id())) {
+            remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
+        }
     }
 
     /**
@@ -228,7 +255,7 @@ class Corporate_Gift_Inquiry {
             'gift-inquiry-scripts',
             plugins_url('js/gift-inquiry.js', __FILE__),
             array('jquery'),
-            '1.2',
+            '1.3',
             true
         );
         
